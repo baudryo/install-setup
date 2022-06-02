@@ -9,6 +9,13 @@ GOLANG=0
 USER="$SUDO_USER"
 HOME="/home/$USER"
 
+
+#if [[ $(id -u) -ne 0 ]] ; then  # Check root permissions
+    #display_usage
+    #exit 1
+#fi
+
+
 display_usage() {
 	echo "This script must be run with root privilege with sudo command."
 	echo "Usage: ./setup.sh [args1] [args2] ..."
@@ -49,13 +56,8 @@ if [[ $# -gt 0 ]] ; then # Check args
 	done
 fi
 
-if [[ $(id -u) -ne 0 ]] ; then  # Check root permissions
-    display_usage
-    exit 1
-fi
-
 # install the necessary packages 
-apt update && apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl
+sudo apt update && sudo apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl
 
 if [[ $DESKTOP -eq 1 ]] ; then
 	echo "install desktop shortcut"
@@ -63,14 +65,17 @@ fi
 
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
-	su -c 'vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa' $USER # execute as $USER
+	#su -c 'vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa' $USER # execute as $USER
+	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
-	su -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended' $USER # execute as $USER
+	#su -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended' $USER # execute as $USER
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	cp -f config/zshrc $HOME/.zshrc
+	exit 1
 	chsh -s $(which zsh) $USER
 	zsh
 	source $HOME/.zshrc
