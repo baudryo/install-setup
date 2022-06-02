@@ -5,13 +5,14 @@ VIM=0
 ZSH=0
 TMUX=0
 GOLANG=0
+USER=$SUDO_USER
 
 display_usage() {
-	echo "This script must be run with root privilege."
+	echo "This script must be run with root privilege with sudo command."
 	echo "Usage: ./setup.sh [args1] [args2] ..."
 	echo "Argument can be :"
 	echo "	-h : Display usage."
-	echo " 	-d : Setup Debian desktop shortcuts."
+	echo "	-d : Setup Debian desktop shortcuts."
 	echo "	-v : Setup vim."
 	echo "	-z : Setup zsh."
 	echo "	-t : Setup tmux."
@@ -52,7 +53,7 @@ if [[ $(id -u) -ne 0 ]] ; then  # Check root permissions
 fi
 
 # install the necessary packages 
-apt update && apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux
+apt update && apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux gi
 
 if [[ $DESKTOP -eq 1 ]] ; then
 	echo "install desktop shortcut"
@@ -65,8 +66,8 @@ fi
 
 if [[ $ZSH -eq 1 ]] ; then
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/$USER/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	cp -f config/zshrc /home/$USER/.zshrc
 	chsh -s $(which zsh)
 	zsh
@@ -74,7 +75,7 @@ if [[ $ZSH -eq 1 ]] ; then
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
-	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
 	cp -f config/tmux.conf /home/$USER/.tmux.conf
 	~/.tmux/plugins/tpm/scripts/install_plugins.sh
 fi
@@ -85,9 +86,4 @@ if [[ $GOLANG -eq 1 ]] ; then
 	tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz
 fi
 
-
-
-
-
-
-
+exit 0
