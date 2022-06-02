@@ -5,6 +5,7 @@ VIM=0
 ZSH=0
 TMUX=0
 GOLANG=0
+
 USER=$SUDO_USER
 
 display_usage() {
@@ -61,18 +62,18 @@ fi
 
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
-	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa > /dev/null
+	su -c 'vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa' $USER
 fi
 
 exit 1
 if [[ $ZSH -eq 1 ]] ; then
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended # ca sexecute en root
 	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/$USER/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	cp -f config/zshrc /home/$USER/.zshrc
-	chsh -s $(which zsh)
-	zsh
-	source /home/$USER/.zshrc
+	chsh -s $(which zsh) $USER
+	#zsh
+	#source /home/$USER/.zshrc
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
