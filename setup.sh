@@ -6,7 +6,8 @@ ZSH=0
 TMUX=0
 GOLANG=0
 
-USER=$SUDO_USER
+USER="$SUDO_USER"
+HOME="/home/$USER"
 
 display_usage() {
 	echo "This script must be run with root privilege with sudo command."
@@ -62,28 +63,27 @@ fi
 
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
-	su -c 'vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa' $USER
+	su -c 'vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa' $USER # execute as $USER
 fi
 
-exit 1
 if [[ $ZSH -eq 1 ]] ; then
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended # ca sexecute en root
-	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting /home/$USER/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-	cp -f config/zshrc /home/$USER/.zshrc
+	su -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended' $USER # execute as $USER
+	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	cp -f config/zshrc $HOME/.zshrc
 	chsh -s $(which zsh) $USER
-	#zsh
-	#source /home/$USER/.zshrc
+	zsh
+	source $HOME/.zshrc
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
-	git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
-	cp -f config/tmux.conf /home/$USER/.tmux.conf
+	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+	cp -f config/tmux.conf $USER/.tmux.conf
 	/home/$USER/.tmux/plugins/tpm/scripts/install_plugins.sh
 fi
 
 if [[ $GOLANG -eq 1 ]] ; then
-	mkdir -p /home/$USER/go_projects/{bin,src,pkg}
+	mkdir -p $USER/go_projects/{bin,src,pkg}
 	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
 	tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz
 fi
