@@ -6,8 +6,8 @@ ZSH=0
 TMUX=0
 GOLANG=0
 
-USER="$SUDO_USER"
-HOME="/home/$USER"
+#USER="$SUDO_USER"
+#HOME="/home/$USER"
 
 
 #if [[ $(id -u) -ne 0 ]] ; then  # Check root permissions
