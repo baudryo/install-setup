@@ -55,16 +55,18 @@ fi
 
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
-	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa
+	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa > /dev/null
+	echo "¨[VIM] : OK"
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting 
 	cp -f config/zshrc $HOME/.zshrc
 	sudo chsh -s $(which zsh) $USER
-	sudo su -l $USER -c "source $HOME/.zshrc"
+	echo "[ZSH] : OK"
+	echo "close the session and reopen a new one, to finish the installation."
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
