@@ -53,7 +53,7 @@ if [[ $(id -u) -ne 0 ]] ; then  # Check root permissions
 fi
 
 # install the necessary packages 
-apt update && apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux gi
+apt update && apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl
 
 if [[ $DESKTOP -eq 1 ]] ; then
 	echo "install desktop shortcut"
@@ -64,6 +64,7 @@ if [[ $VIM -eq 1 ]] ; then
 	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa > /dev/null
 fi
 
+exit 1
 if [[ $ZSH -eq 1 ]] ; then
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	git clone https://github.com/zsh-users/zsh-autosuggestions /home/$USER/.oh-my-zsh/custom/plugins/zsh-autosuggestions
@@ -77,7 +78,7 @@ fi
 if [[ $TMUX -eq 1 ]] ; then
 	git clone https://github.com/tmux-plugins/tpm /home/$USER/.tmux/plugins/tpm
 	cp -f config/tmux.conf /home/$USER/.tmux.conf
-	~/.tmux/plugins/tpm/scripts/install_plugins.sh
+	/home/$USER/.tmux/plugins/tpm/scripts/install_plugins.sh
 fi
 
 if [[ $GOLANG -eq 1 ]] ; then
