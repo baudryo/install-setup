@@ -58,7 +58,7 @@ if [[ $DESKTOP -eq 1 ]] ; then
 	dconf load /org/mate/desktop/keybindings/ < config/desktop/shortcut.dconf # load shortcut 
 	sudo update-alternatives --set x-www-browser /usr/bin/firefox-esr # set default browser
 	sudo update-alternatives --set editor /usr/bin/vim.basic # set default editor
-	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix # set default terminal emulator
+	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper # set default terminal emulator
 	cp -r config/desktop/autostart/ $HOME/.config/ # set startup program
 	echo "[DESKTOP] : OK"
 fi
@@ -72,13 +72,13 @@ fi
 
 if [[ $TMUX -eq 1 ]] ; then
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
-	cp -f config/tmux.conf $USER/.tmux.conf
-	/home/$USER/.tmux/plugins/tpm/scripts/install_plugins.sh
+	cp -f config/tmux.conf $HOME/.tmux.conf
+	$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
 	echo "[TMUX] : OK"
 fi
 
 if [[ $GOLANG -eq 1 ]] ; then
-	mkdir -p $USER/go_projects/{bin,src,pkg}
+	mkdir -p $HOME/go_projects/{bin,src,pkg}
 	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
 	tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz
 	echo "[GOLANG] : OK"
