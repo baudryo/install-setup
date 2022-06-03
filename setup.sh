@@ -47,15 +47,15 @@ if [[ $# -gt 0 ]] ; then # Check args
 fi
 
 # install the required packages 
-sudo apt update && sudo apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl
+sudo apt update && sudo apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl tilix
 
 if [[ $DESKTOP -eq 1 ]] ; then
 	if [[ -z $XDG_CURRENT_DESKTOP ]] || [[ -z $GDMSESSION ]] ; then
 		echo "Desktop Environnement and Window Manager are not defined, the installation of Desktop cannot be performed."
 		exit 1
 	fi
-	dconf load /com/gexperts/Terminix/ < conf/desktop/tilix.dconf # load tilix conf
-	dconf dump /org/mate/desktop/keybindings/ < conf/desktop/shortcut.dconf # load shortcut 
+	dconf load /com/gexperts/Terminix/ < config/desktop/tilix.dconf # load tilix conf
+	dconf load /org/mate/desktop/keybindings/ < config/desktop/shortcut.dconf # load shortcut 
 	sudo update-alternatives --set x-www-browser /usr/bin/firefox-esr # set default browser
 	sudo update-alternatives --set editor /usr/bin/vim.basic # set default editor
 	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix # set default terminal emulator
