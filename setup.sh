@@ -12,6 +12,11 @@ GOLANG=0
 exec 3>&1 1>/dev/null
 
 
+
+# IL faut mieux gerer AFFICHAGE
+# Il faut revoir le la fermeture de session zsh 
+# 	a voir su - totoro
+
 display_usage() {
 	echo -e "Usage: ./setup.sh [args1] [args2] ...\nArgument can be :\n\
 	-h : Display usage.\n\
@@ -51,7 +56,7 @@ if [[ $# -gt 0 ]] ; then # Check args
 fi
 
 # install the required packages 
-sudo apt update && sudo apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl tilix
+sudo apt update && sudo apt install -y fonts-powerline fonts-liberation vim dconf-cli xsel most zsh bat tmux git curl tilix
 echo "[PACKAGES]	: OK" >&3 
 
 if [[ $DESKTOP -eq 1 ]] ; then
