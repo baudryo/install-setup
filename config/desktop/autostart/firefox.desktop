@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=firefox
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[fr_FR]=firefox
+Name=firefox
+Comment[fr_FR]=
+Comment=
+X-MATE-Autostart-Delay=0

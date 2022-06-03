@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=tilix
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[fr_FR]=tilix
+Name=tilix
+Comment[fr_FR]=
+Comment=
+X-MATE-Autostart-Delay=0

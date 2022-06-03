@@ -1,0 +1,14 @@
+[custom0]
+action='tilix'
+binding='<Mod4>t'
+name='tilix'
+
+[custom1]
+action='firefox'
+binding='<Mod4>b'
+name='firefox'
+
+[custom2]
+action='vlc'
+binding='<Mod4>v'
+name='vlc'
