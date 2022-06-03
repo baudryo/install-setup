@@ -6,6 +6,12 @@ ZSH=0
 TMUX=0
 GOLANG=0
 
+# create FD 3
+# hide stdout
+# print stderr and any command redirected to FD3 (suffixed with '3>&1')
+exec 3>&1 1>/dev/null
+
+
 display_usage() {
 	echo "This script must be run with root privilege with sudo command."
 	echo "Usage: ./setup.sh [args1] [args2] ..."
@@ -48,40 +54,42 @@ fi
 
 # install the required packages 
 sudo apt update && sudo apt install -y fonts-powerline vim dconf-cli xsel most zsh bat tmux git curl tilix
+echo "[PACKAGES]	: OK" 3>&1
 
 if [[ $DESKTOP -eq 1 ]] ; then
 	if [[ -z $XDG_CURRENT_DESKTOP ]] || [[ -z $GDMSESSION ]] ; then
 		echo "Desktop Environnement and Window Manager are not defined, the installation of Desktop cannot be performed."
 		exit 1
 	fi
-	dconf load /com/gexperts/Terminix/ < config/desktop/tilix.dconf # load tilix conf
+	dconf load /com/gexperts/Tilix/ < config/desktop/tilix.dconf # load tilix conf
 	dconf load /org/mate/desktop/keybindings/ < config/desktop/shortcut.dconf # load shortcut 
 	sudo update-alternatives --set x-www-browser /usr/bin/firefox-esr # set default browser
 	sudo update-alternatives --set editor /usr/bin/vim.basic # set default editor
 	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper # set default terminal emulator
 	cp -r config/desktop/autostart/ $HOME/.config/ # set startup program
-	echo "[DESKTOP] : OK"
+	echo "[DESKTOP] : OK" 3>&1
+
 fi
 
 
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
 	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa > /dev/null # Install vim plugins and themes
-	echo "¨[VIM] : OK"
+	echo "[VIM]	: OK" 3>&1
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 	cp -f config/tmux.conf $HOME/.tmux.conf
 	$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
-	echo "[TMUX] : OK"
+	echo "[TMUX]	: OK" 3>&1
 fi
 
 if [[ $GOLANG -eq 1 ]] ; then
 	mkdir -p $HOME/go_projects/{bin,src,pkg}
 	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
 	sudo tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz
-	echo "[GOLANG] : OK"
+	echo "[GOLANG]	: OK" 3>&1
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
@@ -90,7 +98,7 @@ if [[ $ZSH -eq 1 ]] ; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting 
 	cp -f config/zshrc $HOME/.zshrc
 	sudo chsh -s $(which zsh) $USER
-	echo "[ZSH] : OK"
+	echo "[ZSH]	: OK" 3>&1
 	echo "Close the session and reopen a new one, to finish the installation."
 fi
 
