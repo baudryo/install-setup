@@ -88,9 +88,9 @@ fi
 
 if [[ $GOLANG -eq 1 ]] ; then
 	mkdir -p $HOME/go_projects/{bin,src,pkg}
-	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz > /dev/null 2>&1
-	sudo tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz > /dev/null 2>&1
-	echo "[GOLANG]		: OK"
+	wget --quiet-c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
+	sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+	echo "[GOLANG]	: OK"
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
