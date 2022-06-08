@@ -6,12 +6,6 @@ ZSH=0
 TMUX=0
 GOLANG=0
 
-# create FD 3
-# hide stdout
-# print stderr and any command redirected to FD3 (suffixed with '>&3')
-exec 3>&1 1>/dev/null
-
-
 
 # IL faut mieux gerer AFFICHAGE
 # Il faut revoir le la fermeture de session zsh 
@@ -60,7 +54,7 @@ elif [[ $# -gt 0 ]] ; then
 fi
 
 # install the required packages 
-sudo apt update > /dev/null && sudo apt install -y fonts-powerline fonts-liberation vim dconf-cli xsel most zsh bat tmux git curl tilix > /dev/null 
+sudo apt-get update > /dev/null && sudo apt-get install -y fonts-powerline fonts-liberation vim dconf-cli xsel most zsh bat tmux git curl tilix > /dev/null 
 echo "[PACKAGES]	: OK"
 
 if [[ $DESKTOP -eq 1 ]] ; then
@@ -74,7 +68,7 @@ if [[ $DESKTOP -eq 1 ]] ; then
 	sudo update-alternatives --set editor /usr/bin/vim.basic > /dev/null # set default editor
 	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper > /dev/null # set default terminal emulator
 	cp -r config/desktop/autostart/ $HOME/.config/ > /dev/null # set startup program
-	echo "[DESKTOP] : OK"
+	echo "[DESKTOP] 	: OK"
 
 fi
 
@@ -82,21 +76,21 @@ fi
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
 	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa > /dev/null # Install vim plugins and themes
-	echo "[VIM]	: OK"
+	echo "[VIM]		: OK"
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
 	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm > /dev/null
 	cp -f config/tmux.conf $HOME/.tmux.conf
 	$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh > /dev/null
-	echo "[TMUX]	: OK"
+	echo "[TMUX]		: OK"
 fi
 
 if [[ $GOLANG -eq 1 ]] ; then
 	mkdir -p $HOME/go_projects/{bin,src,pkg}
 	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz > /dev/null
 	sudo tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz > /dev/null
-	echo "[GOLANG]	: OK"
+	echo "[GOLANG]		: OK"
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
@@ -105,7 +99,7 @@ if [[ $ZSH -eq 1 ]] ; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting > /dev/null
 	cp -f config/zshrc $HOME/.zshrc
 	sudo chsh -s $(which zsh) $USER
-	echo "[ZSH]	: OK"
+	echo "[ZSH]	: 	OK"
 	echo "Close the session and reopen a new one, to finish the installation."
 fi
 
