@@ -52,7 +52,7 @@ elif [[ $# -gt 0 ]] ; then
 			display_usage
 			exit 1
 		else
-			echo "'$i' is not a valid args." >&3
+			echo "'$i' is not a valid args."
 			display_usage
 			exit 1
 		fi
