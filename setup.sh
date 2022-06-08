@@ -25,7 +25,7 @@ display_usage() {
 	-v : Setup vim.\n\
 	-z : Setup zsh.\n\
 	-t : Setup tmux.\n\
-	-g : Setup golang env." >&3
+	-g : Setup golang env." 
 }
 
 if [[ $# -eq 0 ]] ; then # to enough args
@@ -60,21 +60,21 @@ elif [[ $# -gt 0 ]] ; then
 fi
 
 # install the required packages 
-sudo apt update && sudo apt install -y fonts-powerline fonts-liberation vim dconf-cli xsel most zsh bat tmux git curl tilix
-echo "[PACKAGES]	: OK" >&3 
+sudo apt update > /dev/null && sudo apt install -y fonts-powerline fonts-liberation vim dconf-cli xsel most zsh bat tmux git curl tilix > /dev/null 
+echo "[PACKAGES]	: OK"
 
 if [[ $DESKTOP -eq 1 ]] ; then
 	if [[ -z $XDG_CURRENT_DESKTOP ]] || [[ -z $GDMSESSION ]] ; then
-		echo "Desktop Environnement and Window Manager are not defined, the installation of Desktop cannot be performed."  >&3
+		echo "Desktop Environnement and Window Manager are not defined, the installation of Desktop cannot be performed." 
 		exit 1
 	fi
-	dconf load /com/gexperts/Tilix/ < config/desktop/tilix.dconf # load tilix conf
-	dconf load /org/mate/desktop/keybindings/ < config/desktop/shortcut.dconf # load shortcut 
-	sudo update-alternatives --set x-www-browser /usr/bin/firefox-esr # set default browser
-	sudo update-alternatives --set editor /usr/bin/vim.basic # set default editor
-	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper # set default terminal emulator
-	cp -r config/desktop/autostart/ $HOME/.config/ # set startup program
-	echo "[DESKTOP] : OK" >&3
+	dconf load /com/gexperts/Tilix/ < config/desktop/tilix.dconf > /dev/null # load tilix conf
+	dconf load /org/mate/desktop/keybindings/ < config/desktop/shortcut.dconf > /dev/null # load shortcut 
+	sudo update-alternatives --set x-www-browser /usr/bin/firefox-esr > /dev/null # set default browser
+	sudo update-alternatives --set editor /usr/bin/vim.basic > /dev/null # set default editor
+	sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper > /dev/null # set default terminal emulator
+	cp -r config/desktop/autostart/ $HOME/.config/ > /dev/null # set startup program
+	echo "[DESKTOP] : OK"
 
 fi
 
@@ -82,31 +82,31 @@ fi
 if [[ $VIM -eq 1 ]] ; then
 	cp -f config/vimrc /home/$USER/.vimrc
 	vim -E -s -u "/home/$USER/.vimrc" +PlugInstall +qa > /dev/null # Install vim plugins and themes
-	echo "[VIM]	: OK" >&3
+	echo "[VIM]	: OK"
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
-	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm > /dev/null
 	cp -f config/tmux.conf $HOME/.tmux.conf
-	$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
-	echo "[TMUX]	: OK" >&3
+	$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh > /dev/null
+	echo "[TMUX]	: OK"
 fi
 
 if [[ $GOLANG -eq 1 ]] ; then
 	mkdir -p $HOME/go_projects/{bin,src,pkg}
-	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
-	sudo tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz
-	echo "[GOLANG]	: OK" >&3
+	wget -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz > /dev/null
+	sudo tar -C /usr/local -xvzf go1.15.2.linux-amd64.tar.gz > /dev/null
+	echo "[GOLANG]	: OK"
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting 
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended > /dev/null 
+	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions > /dev/null
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting > /dev/null
 	cp -f config/zshrc $HOME/.zshrc
 	sudo chsh -s $(which zsh) $USER
-	echo "[ZSH]	: OK"  >&3
-	echo "Close the session and reopen a new one, to finish the installation." >&3
+	echo "[ZSH]	: OK"
+	echo "Close the session and reopen a new one, to finish the installation."
 fi
 
 exit 0
