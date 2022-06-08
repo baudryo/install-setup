@@ -99,7 +99,7 @@ if [[ $ZSH -eq 1 ]] ; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting > /dev/null 2>&1
 	cp -f config/zshrc $HOME/.zshrc
 	sudo chsh -s $(which zsh) $USER
-	echo "[ZSH]	: 	OK"
+	echo "[ZSH]		: OK"
 	echo "Close the session and reopen a new one, to finish the installation."
 fi
 
