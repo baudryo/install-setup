@@ -16,6 +16,7 @@ exec 3>&1 1>/dev/null
 # IL faut mieux gerer AFFICHAGE
 # Il faut revoir le la fermeture de session zsh 
 # 	a voir su - totoro
+# 	pourquoi theme tilix pas pris en compte après un redemarrage avec su - totoro	mais apres reset session oui
 
 display_usage() {
 	echo -e "Usage: ./setup.sh [args1] [args2] ...\nArgument can be :\n\
@@ -27,7 +28,10 @@ display_usage() {
 	-g : Setup golang env." >&3
 }
 
-if [[ $# -gt 0 ]] ; then # Check args
+if [[ $# -eq 0 ]] ; then # to enough args
+	display_usage
+	exit 1
+elif [[ $# -gt 0 ]] ; then
 	if [[ $# -gt 6 ]] ; then # to much args
 		display_usage
 		exit 1
