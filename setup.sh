@@ -80,7 +80,7 @@ if [[ $VIM -eq 1 ]] ; then
 fi
 
 if [[ $TMUX -eq 1 ]] ; then
-	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm > /dev/null
+	git clone --quiet https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm > /dev/null
 	cp -f config/tmux.conf $HOME/.tmux.conf
 	$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh > /dev/null
 	echo "[TMUX]		: OK"
@@ -88,15 +88,15 @@ fi
 
 if [[ $GOLANG -eq 1 ]] ; then
 	mkdir -p $HOME/go_projects/{bin,src,pkg}
-	wget --quiet-c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
-	sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+	wget --quiet -c https://golang.org/dl/go1.15.2.linux-amd64.tar.gz 
+	sudo tar --quiet -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
 	echo "[GOLANG]	: OK"
 fi
 
 if [[ $ZSH -eq 1 ]] ; then
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended > /dev/null 
-	git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions > /dev/null 2>&1
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting > /dev/null 2>&1
+	git clone --quiet https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	cp -f config/zshrc $HOME/.zshrc
 	sudo chsh -s $(which zsh) $USER
 	echo "[ZSH]		: OK"
